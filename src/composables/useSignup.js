@@ -1,7 +1,6 @@
 import { ref } from 'vue'
 import { projectAuth }  from '../firebase/config'
 
-
 const error = ref(null)
 
 const signup = async (email, password, displayName) => {
@@ -23,7 +22,7 @@ const signup = async (email, password, displayName) => {
         console.log(res.user)
     } catch(err) {
         console.log(err.message)
-        error.value = err
+        error.value = err.message
     }
 }
 

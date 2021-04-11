@@ -5,16 +5,16 @@
       <!-- if the user is new, show the signup form --> 
       <div v-if="newHere">
           <h1>Sign up</h1>
-          <SignupForm />
+          <SignupForm  @signedup="handleNewHere"/>
 
           <!--  show the option to go to Login -->
-          <span @click="handleNewHere">you already have an account?</span>
+          <span @click="enterChat">you already have an account?</span>
       </div>
 
       <!-- else, show the login form -->
       <div v-else>
           <h1>Log in</h1>
-          <LoginForm />
+          <LoginForm @loggedIn="enterChat"/>
 
           <!-- show the option to go to signup -->
           <span @click="handleNewHere">New here?</span>
@@ -26,22 +26,32 @@
 import SignupForm from '../components/SignupForm.vue'
 import LoginForm from '../components/LoginForm.vue'
 import { ref } from '@vue/reactivity'
+import { useRouter } from 'vue-router'
 
 export default {
     components: { SignupForm, LoginForm },
     setup() {
+        //refs
         const newHere = ref(false)
 
+        //
+        const router = useRouter()
+
+        // alterne entre les composantes LoginForm et SignupForm
         const handleNewHere = () => {
             newHere.value = !newHere.value
         }
-
-        return { newHere, handleNewHere }
+        
+        // redirect vers le chatroom quand le user va se logger
+        const enterChat = () => {
+            router.push({name: 'Chatroom'})
+        }
+        return { newHere, handleNewHere, enterChat }
     }
 }
 </script>
 
-<style>
+<style >
     .welcome {
         text-align: center;
         padding: 20px 0;
